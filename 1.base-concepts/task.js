@@ -16,20 +16,14 @@ function solveEquation(a, b, c) {
 }
 
 function calculateTotalMortgage(percent, contribution, amount, countMonths) {
-  let totalAmount;
-  if (isNaN(percent)) {
-  return totalAmount = `Параметр "Процентная ставка" содержит неправильное значение "${percent}"`;
-} else if (isNaN(contribution)) {
-  return totalAmount = `Параметр "Начальный взнос" содержит неправильное значение "${contribution}"`;
-} else if (isNaN(amount)) {
-  return totalAmount = `Параметр "Общая стоимость" содержит неправильное значение "${amount}"`;
-} 	
-let returnAmountBank = amount - contribution;	/*тело кредита*/ 
-let date1 = new Date();	
-let diff = Date.parse(date) - Date.parse(date1); /*  */
-let creditTerm = Math.ceil(diff / 1000 / 60 / 60 / 24 / 30.5); 	/* срок кредитования, округление*/ 	
-let P = percent / 12 / 100; 	/* процентная ставка */ 
-let monthlyFee = returnAmountBank * (P + (P / (((1 + P) ** creditTerm) - 1))); 	/*ежемесячная оплата*/ 
-    totalAmount = creditTerm * monthlyFee; /*общая сумма*/ 		
-  return Number(totalAmount.toFixed(2));	
+  if (isNaN(percent) || isNaN(contribution) || isNaN(amount) === true) {
+    return false; /* Если параметр функции string, то преобразовать в number, иначе false */
+  }
+  else {
+    let P = (percent / 100) / 12; /*Годовая ставка => месячная */
+    let S = amount - contribution; /* Тело кредита */
+    let paymentInMonths = (S * (P + (P / (((1 + P)** countMonths) - 1)))); /* Ежемесячная оплата */
+    let totalPayment = Number((paymentInMonths * countMonths).toFixed(2)); /* Общая сумма выплат */
+    return totalPayment
+  }
 }
