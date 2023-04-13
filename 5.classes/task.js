@@ -91,3 +91,43 @@ class Library {
     }
 }
 
+class Student {
+    constructor(name) {
+      this.name = name;
+      this.marks = {};
+    }
+  
+    addMark(mark, subject) {
+        /* Валидируем оценки */
+      if (mark < 2 || mark > 5) {
+        return;
+      }
+  /* Проверка на наличие предмета. Если отсутсутствует - добавляйте новое свойство, названием которого будет название предмета, а значением — пустой массив */
+      if (!this.marks[subject]) {
+        this.marks[subject] = [];
+      }
+  
+      this.marks[subject].push(mark);
+    }
+  
+    getAverageBySubject(subject) {
+      if (!this.marks[subject]) {
+        return 0;
+      }
+  
+      const sum = this.marks[subject].reduce((acc, mark) => acc + mark, 0);
+      return sum / this.marks[subject].length;
+    }
+  
+    getAverage() {
+      const subjects = Object.keys(this.marks);
+  
+      if (subjects.length === 0) {
+        return 0;
+      }
+  
+      const sum = subjects.reduce((acc, subject) => acc + this.getAverageBySubject(subject), 0);
+      return sum / subjects.length;
+    }
+  }
+  
